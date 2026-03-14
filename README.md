@@ -9,11 +9,15 @@ The purpose of this notebook is to show that we can:
 1. Load or generate an audio signal
 2. Modulate the signal using a carrier
 3. Demodulate the signal using the same carrier
-4. Recover the original audio in software
-5. Measure correctness and timing
-6. Extend the idea to a basic FHSS-style hopping carrier
+4. Packetize the .wav data in UDP format and write it to a .bin file
+5. Recover the original audio in software
+6. Measure correctness and timing
+7. Extend the idea to a basic FHSS-style hopping carrier
+8. Implement a FHSS-style hopping carrier using and LSFR algorithm to add randomness
 
-This notebook focuses on the **audio modulation/demodulation portion** of the project, which is the part of the project primarily assigned to **Camille** in the proposal.
+**Camille** focused on the **audio modulation/demodulation** portion of this update.
+**Liam** focused on the **UDP packetization and pseudo-random FHSS implementation** for this portion of the update.
+
 
 ---
 
@@ -100,6 +104,22 @@ These timing results are important because the long-term goal of the project is 
 
 ---
 
+### 9. Packetizes UDP data and writes it to a .bin file for future demodulation
+The notebook writes modulated data to UDP packets:
+- this format allows us to use the same input data for PS and PL
+- this format allows us to effectively separate the transmitter-side and receiver-side 
+
+We can use this UDP data to track packet loss on the same input to compare **software (PS)** versus **hardware (PL)**. 
+
+---
+
+### 10. Implements LSFR hop sequence generator
+The notebook uses an extensible pseudo-random hop-sequence to create a more complex hop pattern:
+
+Using this hop sequence allows us to simulate more realistic hop patterns, better demonstrating the abilities and limitations of **software (PS)** versus **hardware (PL)**. 
+
+---
+
 ## What This Notebook Demonstrates
 
 This notebook demonstrates the **core signal-processing idea** behind the project:
@@ -114,8 +134,8 @@ This makes the notebook a valid **first software milestone** for the project.
 
 ## Current Limitation
 
-Although this notebook matches the **signal-processing side** of the project proposal, it is **not yet fully integrated** with Liam’s communication-layer implementation.
+The notebook does not actually send packets over a socket, instead writing simulated UDP packets to a .bin file to represent the sending function, then the data is decrypted and read to represent the receiving function. Both the hardware and software implementations will use the same encrypted .bin file, and then both will decrypt and display the results to represent the receiver side.
 
-Right now, the notebook works entirely in Python on local arrays and files. It does not yet send packets over sockets or reconstruct a received signal from network transfers.
+Right now, the final FHSS demodulated signal is slighty distorted. We can investigate this issue further to determine if this distortion represents a problem in our code, or if it is to be expected from our filtering function.
 
 ---
