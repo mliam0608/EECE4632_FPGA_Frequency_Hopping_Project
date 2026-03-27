@@ -1,6 +1,8 @@
 # EECE4632_FPGA_Frequency_Hopping_Project
 This project will compare the performance of a frequency hopping receiver when implemented using hardware vs software.
 
+**Camille** wrote the Vitis code for the axi_stream, and the rest of the work was completed by **Liam and Camille** during lab time.
+
 # Update Two: Hardware Implementation
 This document discusses the changes made in update two of the project, for our hardware implementation.
 
