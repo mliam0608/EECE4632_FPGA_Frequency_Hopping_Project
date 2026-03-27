@@ -1,141 +1,26 @@
 # EECE4632_FPGA_Frequency_Hopping_Project
 This project will compare the performance of a frequency hopping receiver when implemented using hardware vs software.
 
-## Update One: Software Implementation:
-This notebook is the **software-side signal processing prototype** for our EECE 4632 project on **Frequency Hopping Spread Spectrum (FHSS)**.
+# Update Two: Hardware Implementation
+This document discusses the changes made in update two of the project, for our hardware implementation.
 
-The purpose of this notebook is to show that we can:
+## Vitis Implementation:
+We used axi_stream to implement the demodulation function of our FHSS pipeline. The C++ file takes in an input signal, from the encrypted_packets.bin file; a carrier, which has the values by which to mulitiply the input signal; and the output signal, which is where the final, demodulated signal comes from. We wrote a testbench to ensure the code worked properly, then exported it to Vivado.
 
-1. Load or generate an audio signal
-2. Modulate the signal using a carrier
-3. Demodulate the signal using the same carrier
-4. Packetize the .wav data in UDP format and write it to a .bin file
-5. Recover the original audio in software
-6. Measure correctness and timing
-7. Extend the idea to a basic FHSS-style hopping carrier
-8. Implement a FHSS-style hopping carrier using and LSFR algorithm to add randomness
+## Vivado Implementation:
+We added the IP for our demodulate block to the axi_stream.tcl example from the earlier lab. The main modification we had to make was adding a second dma block, since our demodulate block has 2 inputs. We used the outputs of both dma blocks, for our input signal and carrier, as well as the input of one block, for the output signal. We generated our bitstream and used this code for our Jupyter notebook.
 
-**Camille** focused on the **audio modulation/demodulation** portion of this update.
-**Liam** focused on the **UDP packetization and pseudo-random FHSS implementation** for this portion of the update.
+## Jupyter Notebook:
+We tried to create a Jupyter notebook where we could get any sort of output from our demodulate block. However, we ran into a problem where ... , which we were still trying to debug at the end of class on Wednesday, 3/25. We plan to diagnose this problem, but we suspect it is an issue with introducing the second dma block. It may be worthwhile to create a new Vivado design from scratch using the previous axi_stream example in case we corrupted memory addresses in the design.
 
+## Files:
+1. demodulate.cpp - The .cpp file written in Vitis, which we created an IP for in Vivado
+2. encrypted_packets.bin - The input for the FHSS demodulate block to decrypt
+3. demodulate_axistream.bit - The bitstream for our vivado implementation
+4. demodulate_axistream.tcl - The .tcl diagram for our Vivado design
+5. demodulate_axistream.hwh - The .hwh file for our Vivado design
+6. demodulate_axistream.ipynb - The Jupyter notebook where we run our code using the implemented hardware
+7. demodulate_axistream_bd.pdf - The pdf of our Vivado block diagram design
 
----
-
-## What This Notebook Does
-
-### 1. Loads an audio signal
-The notebook either:
-- reads an input `.wav` file, or
-- generates a synthetic test signal if no file is available
-
-This gives us a known audio source to process.
-
----
-
-### 2. Creates a carrier signal
-The notebook generates a carrier waveform using a cosine function.
-
-It supports:
-- a **single-frequency carrier** for the simplest proof of concept
-- a **basic hopping carrier** where the frequency changes every fixed number of samples
-
----
-
-### 3. Modulates the audio
-The original audio is “encrypted” by multiplying it by the carrier signal.
-
-For the basic version:
-
-\[
-\text{modulated} = \text{audio} \times \text{carrier}
-\]
-
-This shifts the signal into a higher-frequency form.
-
----
-
-### 4. Demodulates the audio
-The receiver multiplies the modulated signal by the **same carrier** again.
-
-\[
-\text{mixed\_back} = \text{modulated} \times \text{carrier}
-\]
-
-Then the notebook applies a **low-pass filter** to remove the high-frequency terms and recover the original baseband audio.
-
----
-
-### 5. Saves output files
-The notebook saves:
-- an encrypted/modulated `.wav` file
-- a decrypted/demodulated `.wav` file
-
-This allows us to listen to the intermediate and final results.
-
----
-
-### 6. Visualizes the results
-The notebook plots:
-- the original waveform
-- the encrypted waveform
-- the decrypted waveform
-
-This helps verify that the output matches the input.
-
----
-
-### 7. Evaluates correctness
-The notebook calculates several metrics, including:
-- **MSE** (mean squared error)
-- **MAE** (mean absolute error)
-- **SNR** (signal-to-noise ratio)
-- **Approximate BER** (bit error rate approximation using sample sign)
-
-These give us a software baseline for later comparison with FPGA hardware.
-
----
-
-### 8. Measures software timing
-The notebook measures:
-- total execution time
-- throughput in samples per second
-
-These timing results are important because the long-term goal of the project is to compare **software (PS)** versus **hardware (PL)** performance.
-
----
-
-### 9. Packetizes UDP data and writes it to a .bin file for future demodulation
-The notebook writes modulated data to UDP packets:
-- this format allows us to use the same input data for PS and PL
-- this format allows us to effectively separate the transmitter-side and receiver-side 
-
-We can use this UDP data to track packet loss on the same input to compare **software (PS)** versus **hardware (PL)**. 
-
----
-
-### 10. Implements LSFR hop sequence generator
-The notebook uses an extensible pseudo-random hop-sequence to create a more complex hop pattern:
-
-Using this hop sequence allows us to simulate more realistic hop patterns, better demonstrating the abilities and limitations of **software (PS)** versus **hardware (PL)**. 
-
----
-
-## What This Notebook Demonstrates
-
-This notebook demonstrates the **core signal-processing idea** behind the project:
-
-- the transmitter and receiver can share a known carrier pattern
-- the audio can be modulated and later recovered
-- the process works in software before moving to FPGA hardware
-
-This makes the notebook a valid **first software milestone** for the project.
-
----
-
-## Current Limitation
-
-The notebook does not actually send packets over a socket, instead writing simulated UDP packets to a .bin file to represent the sending function, then the data is decrypted and read to represent the receiving function. Both the hardware and software implementations will use the same encrypted .bin file, and then both will decrypt and display the results to represent the receiver side.
-
-Right now, the final FHSS demodulated signal is slighty distorted. We can investigate this issue further to determine if this distortion represents a problem in our code, or if it is to be expected from our filtering function.
-
----
+## Next Steps: 
+We want to try to regenerate our Vivado design to see if we can fix the problem with ... . A major obstacle we ran into was the amount of time it takes to generate a bitstream, which limited our progress.
