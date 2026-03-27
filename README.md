@@ -13,7 +13,7 @@ We used axi_stream to implement the demodulation function of our FHSS pipeline. 
 We added the IP for our demodulate block to the axi_stream.tcl example from the earlier lab. The main modification we had to make was adding a second dma block, since our demodulate block has 2 inputs. We used the outputs of both dma blocks, for our input signal and carrier, as well as the input of one block, for the output signal. We generated our bitstream and used this code for our Jupyter notebook.
 
 ## Jupyter Notebook:
-We tried to create a Jupyter notebook where we could get any sort of output from our demodulate block. However, we ran into a problem where ... , which we were still trying to debug at the end of class on Wednesday, 3/25. We plan to diagnose this problem, but we suspect it is an issue with introducing the second dma block. It may be worthwhile to create a new Vivado design from scratch using the previous axi_stream example in case we corrupted memory addresses in the design.
+We tried to create a Jupyter notebook where we could get any sort of output from our demodulate block. However, we ran into a problem where our hardware wasn't being written to at all, which we were still trying to debug at the end of class on Wednesday, 3/25. We plan to diagnose this problem, but we suspect it is an issue with introducing the second dma block, and something possibly with our registers. It may be worthwhile to create a new Vivado design from scratch using the previous axi_stream example in case we corrupted memory addresses in the design.
 
 ## Files:
 1. demodulate.cpp - The .cpp file written in Vitis, which we created an IP for in Vivado
