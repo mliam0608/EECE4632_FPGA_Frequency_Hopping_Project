@@ -23,4 +23,4 @@ We tried to create a Jupyter notebook where we could get any sort of output from
 7. demodulate_axistream_bd.pdf - The pdf of our Vivado block diagram design
 
 ## Next Steps: 
-We want to try to regenerate our Vivado design to see if we can fix the problem with ... . A major obstacle we ran into was the amount of time it takes to generate a bitstream, which limited our progress.
+A potential fix may be in our Jupyter notebook. We wrote **ol.demodulate_0.write(0x00, 0x01)**. However, after re-examining the tutorial, we should have written **ol.demodulate_0.write(0x00, 0x81)**, as AUTO_RESTART is not enabled otherwise, which would explain why our program stalled.
