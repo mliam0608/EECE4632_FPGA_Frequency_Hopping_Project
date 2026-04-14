@@ -22,10 +22,10 @@ No additional downloads are needed. Clone the repo and all inputs will be presen
 
 ### Hardware Pipeline (PL)
 Transfer the following files to the same directory on your Pynq board:
-- `demodulate_axistream.bit`
-- `demodulate_axistream.hwh`
-- `demodulate_axistream.tcl`
-- `encrypted_packets.bin`
+- `demodulate_packed.bit`
+- `demodulate_packed.hwh`
+- `demodulate_packed.tcl`
+- `packets_encrypted.bin`
 
 ## AI Usage
 We used **ChatGPT** during this project for the following tasks:
