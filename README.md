@@ -1,6 +1,40 @@
 # EECE4632 FPGA Frequency Hopping Project
 This project will compare the performance of a frequency hopping receiver when implemented using hardware vs software.
 
+# Final Pipeline
+
+## Input Files
+All input files required to run the pipeline are included in the GitHub repository:
+- `encrypted_packets.bin` — the packetized, encrypted signal produced by the transmitter pipeline
+- `input.wav` — the original audio file used as the transmitter input
+
+No additional downloads are needed. Clone the repo and all inputs will be present.
+
+## How to Run
+
+### Software Pipeline (PS)
+1. Open `final_project_pipeline.ipynb` in JupyterLab
+2. Run all cells in order. The notebook will:
+   - Load the `.wav` file and generate a pseudo-random carrier signal
+   - Modulate and packetize the signal into `encrypted_packets.bin`
+   - Demodulate the packets and reconstruct the audio
+   - Plot the original, encrypted, and decrypted waveforms and compute MSE
+
+### Hardware Pipeline (PL)
+Transfer the following files to the same directory on your Pynq board:
+- `demodulate_axistream.bit`
+- `demodulate_axistream.hwh`
+- 'demodulate_axistream.tcl'
+- `encrypted_packets.bin`
+
+## AI Usage
+We used **ChatGPT** during this project for the following tasks:
+- Debugging Vitis HLS code, particularly around AXI stream interface pragmas and data type handling
+- Troubleshooting the Jupyter notebook when the DMA was not writing to hardware correctly
+- Helping structure and proofread sections of this report
+
+Where AI suggestions were used in code, we reviewed and tested them on hardware ourselves — several suggestions required correction before they worked in our specific Pynq environment. The overall design decisions (single DMA architecture, bit-packing scheme, MSE validation approach) were made by us independently.
+
 **Camille** wrote the Vitis code for the axi_stream, and the rest of the work was completed by **Liam and Camille** during lab time.
 
 # Update Two: Hardware Implementation
