@@ -24,7 +24,7 @@ No additional downloads are needed. Clone the repo and all inputs will be presen
 Transfer the following files to the same directory on your Pynq board:
 - `demodulate_axistream.bit`
 - `demodulate_axistream.hwh`
-- 'demodulate_axistream.tcl'
+- `demodulate_axistream.tcl`
 - `encrypted_packets.bin`
 
 ## AI Usage
