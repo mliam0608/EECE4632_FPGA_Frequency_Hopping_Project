@@ -26,7 +26,7 @@ Transfer the following files to the same directory on your Pynq board:
 - `demodulate_packed.hwh`
 - `demodulate_packed.tcl`
 - `packets_encrypted.bin`
-
+ 
 ## AI Usage
 We used **ChatGPT** during this project for the following tasks:
 - Debugging Vitis HLS code, particularly around AXI stream interface pragmas and data type handling
